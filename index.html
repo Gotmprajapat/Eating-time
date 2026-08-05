@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZORKO Brand of Food Lovers - Sujangarh</title>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #ff5722;
+      --primary-hover: #e64a19;
+      --secondary: #ffb300;
+      --bg-cream: #fdfbf7;
+      --card-bg: #ffffff;
+      --text-dark: #2c3e50;
+      --text-muted: #6c757d;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* --- Navbar --- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-logo img {
+      height: 45px;
+      border-radius: 8px;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title span {
+      color: var(--secondary);
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .cart-btn {
+      position: relative;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.3s;
+    }
+
+    .cart-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .cart-badge {
+      background: white;
+      color: var(--primary);
+      font-size: 0.8rem;
+      padding: 2px 7px;
+      border-radius: 50%;
+      font-weight: 700;
+    }
+
+    .three-dots-menu {
+      position: relative;
+    }
+
+    .dots-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 50%;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      width: 200px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1001;
+    }
+
+    .dropdown-menu.active {
+      display: flex;
+    }
+
+    .dropdown-item {
+      padding: 12px 16px;
+      color: var(--text-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: #fff3e0;
+      color: var(--primary);
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+      padding: 40px 5% 20px;
+      text-align: center;
+      background: linear-gradient(180deg, #fff3e0 0%, var(--bg-cream) 100%);
+    }
+
+    .veg-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      border: 1px solid #a5d6a7;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 20px;
+      font-size: 1rem;
+    }
+
+    /* --- Food Gallery --- */
+    .section-title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 30px 0 15px;
+      color: var(--text-dark);
+    }
+
+    .gallery-container {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding: 10px 5%;
+      scrollbar-width: none;
+    }
+
+    .gallery-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-item {
+      min-width: 220px;
+      height: 150px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.4s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    /* --- Categories & Search --- */
+    .controls {
+      padding: 20px 5%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 45px 12px 20px;
+      border: 2px solid #ffe0b2;
+      border-radius: 30px;
+      outline: none;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+    }
+
+    .category-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      width: 100%;
+      max-width: 800px;
+      padding-bottom: 5px;
+      scrollbar-width: none;
+    }
+
+    .cat-btn {
+      padding: 8px 18px;
+      border: 1px solid #ffe0b2;
+      background: white;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* --- Menu Grid --- */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+      padding: 10px 5% 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .food-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .food-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .food-img-wrap {
+      width: 100%;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+
+    .food-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 6px;
+    }
+
+    .food-info {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .food-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .food-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      flex-grow: 1;
+    }
+
+    .food-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .curr-price {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .orig-price {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .add-btn {
+      background: var(--secondary);
+      color: var(--text-dark);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-btn:hover {
+      background: #ffa000;
+    }
+
+    /* --- Reviews Section --- */
+    .reviews-section {
+      background: #ffffff;
+      padding: 40px 5%;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
+    }
+
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: var(--bg-cream);
+      padding: 18px;
+      border-radius: 12px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .rev-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .rev-author {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .rev-stars {
+      color: #ffc107;
+      font-size: 0.85rem;
+    }
+
+    .rev-text {
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    .view-more-btn {
+      display: block;
+      margin: 20px auto 0;
+      background: none;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 24px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .write-rev-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* --- Modals & Drawers --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 15px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius);
+      padding: 25px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 18px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* --- Cart Drawer --- */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 100%;
+      max-width: 380px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+      z-index: 2500;
+      transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-drawer.active {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 20px;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-items {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-btn {
+      width: 25px;
+      height: 25px;
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .total-price {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .whatsapp-order-btn {
+      width: 100%;
+      padding: 12px;
+      background: #25d366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Floating WhatsApp */
+    .floating-wa {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: white;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      text-decoration: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="#" class="brand-logo">
+      <div>
+        <div class="brand-title">ZORKO <span>BRAND OF FOOD LOVERS</span></div>
+      </div>
+    </a>
+
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Cart</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+
+      <div class="three-dots-menu">
+        <button class="dots-btn" onclick="toggleDropdown()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="dropdown-item" onclick="openAdminPanel()"><i class="fa-solid fa-lock"></i> Admin Edit Panel</div>
+          <div class="dropdown-item" onclick="openModal('bookModal')"><i class="fa-solid fa-calendar-check"></i> Book Table</div>
+          <a href="#about" class="dropdown-item"><i class="fa-solid fa-location-dot"></i> About & Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="veg-badge"><i class="fa-solid fa-leaf"></i> 100% Pure Veg Restaurant</div>
+    <h1>Delicious Bites & Refreshing Sips</h1>
+    <p>Main Road, Near AU Bank, Sujangarh. Quality Fast Food & Signature Beverages!</p>
+  </section>
+
+  <!-- Gallery Section -->
+  <h2 class="section-title">Specialities Gallery</h2>
+  <div class="gallery-container">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" alt="Burger"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80" alt="Pizza"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=500&q=80" alt="Momos"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" alt="Mojito"></div>
+  </div>
+
+  <!-- Controls (Search & Filter) -->
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search pizza, burger, momos, mojito..." onkeyup="filterMenu()" />
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <div class="category-scroll" id="categoryContainer">
+      <button class="cat-btn active" onclick="filterCategory('All', this)">All Items</button>
+      <button class="cat-btn" onclick="filterCategory('Burgers', this)">Burgers</button>
+      <button class="cat-btn" onclick="filterCategory('Pizzas', this)">Pizzas</button>
+      <button class="cat-btn" onclick="filterCategory('Momos', this)">Momos</button>
+      <button class="cat-btn" onclick="filterCategory('Beverages', this)">Beverages</button>
+      <button class="cat-btn" onclick="filterCategory('Snacks', this)">Fries & Snacks</button>
+    </div>
+  </div>
+
+  <!-- Menu Grid -->
+  <div class="menu-grid" id="menuGrid"></div>
+
+  <!-- Reviews Section -->
+  <section class="reviews-section">
+    <div class="reviews-header">
+      <h2>Customer Reviews (4.8 ★)</h2>
+      <button class="write-rev-btn" onclick="openModal('reviewModal')">Write a Review</button>
+    </div>
+    <div class="review-list" id="reviewList"></div>
+    <button class="view-more-btn" id="viewMoreRevBtn" onclick="toggleReviews()">View More Reviews</button>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" style="padding: 40px 5%; max-width: 900px; margin: 0 auto; text-align: center;">
+    <h2 class="section-title">Visit Us</h2>
+    <p><strong>Address:</strong> Ghanta Ghar, Main Rd, near AU BANK, Sujangarh, Rajasthan 331507</p>
+    <p><strong>Timing:</strong> 11:00 AM - 11:00 PM (Everyday)</p>
+    <p><strong>Contact:</strong> +91 82390 67000</p>
+  </section>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Your Food Order</h3>
+      <i class="fa-solid fa-xmark" style="cursor: pointer; font-size: 1.3rem;" onclick="toggleCart()"></i>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="total-price">
+        <span>Total:</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+      <button class="whatsapp-order-btn" onclick="sendWhatsAppOrder()">
+        <i class="fa-brands fa-whatsapp"></i> Order via WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: Book Table -->
+  <div class="modal-overlay" id="bookModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('bookModal')">&times;</span>
+      <h3>Book a Table</h3>
+      <form style="margin-top: 15px;" onsubmit="handleTableBooking(event)">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="bookName" required />
+        </div>
+        <div class="form-group">
+          <label>Guests</label>
+          <input type="number" id="bookGuests" min="1" max="20" value="2" required />
+        </div>
+        <div class="form-group">
+          <label>Date & Time</label>
+          <input type="datetime-local" id="bookTime" required />
+        </div>
+        <button type="submit" class="submit-btn">Confirm Reservation</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Write Review -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('reviewModal')">&times;</span>
+      <h3>Write a Review</h3>
+      <form style="margin-top: 15px;" onsubmit="handleAddReview(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="revAuthorInput" required />
+        </div>
+        <div class="form-group">
+          <label>Rating (1 to 5 Stars)</label>
+          <select id="revStarsInput">
+            <option value="5">5 ★★★★★</option>
+            <option value="4">4 ★★★★</option>
+            <option value="3">3 ★★★</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Feedback</label>
+          <textarea id="revTextInput" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Admin Edit Panel -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('adminModal')">&times;</span>
+      <h3>Admin Edit Panel</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">Add or edit food pricing, discounts & custom photo uploads.</p>
+      
+      <form id="adminForm" onsubmit="handleAdminSaveItem(event)">
+        <input type="hidden" id="editItemId" />
+        <div class="form-group">
+          <label>Item Name</label>
+          <input type="text" id="adminTitle" required />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="adminCategory">
+            <option value="Burgers">Burgers</option>
+            <option value="Pizzas">Pizzas</option>
+            <option value="Momos">Momos</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Snacks">Snacks</option>
+          </select>
+        </div>
+        <div class="form-group" style="display:flex; gap:10px;">
+          <div style="flex:1;">
+            <label>Price (₹)</label>
+            <input type="number" id="adminPrice" required />
+          </div>
+          <div style="flex:1;">
+            <label>Original Price (₹)</label>
+            <input type="number" id="adminOrigPrice" placeholder="Optional" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="adminDesc" placeholder="Short description" />
+        </div>
+        <div class="form-group">
+          <label>Upload Photo</label>
+          <input type="file" id="adminImageFile" accept="image/*" />
+        </div>
+        <button type="submit" class="submit-btn">Save Product</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/918239067000" class="floating-wa" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script>
+    // --- Initial Data Pre-seeding ---
+    const defaultMenu = [
+      { id: 1, name: "Classic OG Burger", category: "Burgers", price: 69, origPrice: 89, desc: "Fresh crispy veggie patty with signature sauce.", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80" },
+      { id: 2, name: "Cheese Injector Burger", category: "Burgers", price: 99, origPrice: 120, desc: "Served with melted cheese injector shot!", img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=400&q=80" },
+      { id: 3, name: "Signature Kulhad Pizza", category: "Pizzas", price: 119, origPrice: 149, desc: "Baked inside traditional clay kulhad loaded with cheese.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80" },
+      { id: 4, name: "Blue Heaven Mojito", category: "Beverages", price: 79, origPrice: 99, desc: "Cooling mint & curaçao soda mocktail.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80" },
+      { id: 5, name: "Melting Gravy Momos", category: "Momos", price: 109, origPrice: 129, desc: "Steamed momos dipped in spicy creamy gravy.", img: "https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=400&q=80" },
+      { id: 6, name: "Peri Peri Fries", category: "Snacks", price: 69, origPrice: 79, desc: "Crispy french fries tossed with zesty peri-peri spice.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=400&q=80" }
+    ];
+
+    const defaultReviews = [
+      { author: "Isran Bhati", stars: 5, text: "Amazing food, great service and a wonderful atmosphere! Everything was fresh and flavorful." },
+      { author: "Rahul Sharma", stars: 5, text: "Best food in sujangarh with reasonable price! Kulhad pizza & cold coffee are top notch." },
+      { author: "Priya S.", stars: 5, text: "Red sauce pasta & Blue Heaven Mojito were solid! Best hangout place with friends." },
+      { author: "Vikram R.", stars: 4, text: "Quick service and friendly staff. Loved the cheese injector burger concept!" }
+    ];
+
+    // State Variables
+    let menuData = JSON.parse(localStorage.getItem('zorko_menu')) || defaultMenu;
+    let reviewData = JSON.parse(localStorage.getItem('zorko_reviews')) || defaultReviews;
+    let cart = [];
+    let activeCategory = 'All';
+    let showAllReviews = false;
+
+    // Save to LocalStorage
+    function saveData() {
+      localStorage.setItem('zorko_menu', JSON.stringify(menuData));
+      localStorage.setItem('zorko_reviews', JSON.stringify(reviewData));
+    }
+
+    // Render Menu Grid
+    function renderMenu() {
+      const grid = document.getElementById('menuGrid');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      grid.innerHTML = '';
+
+      const filtered = menuData.filter(item => {
+        const matchesCat = activeCategory === 'All' || item.category === activeCategory;
+        const matchesSearch = item.name.toLowerCase().includes(searchVal);
+        return matchesCat && matchesSearch;
+      });
+
+      filtered.forEach(item => {
+        const hasDiscount = item.origPrice && item.origPrice > item.price;
+        const discountPct = hasDiscount ? Math.round(((item.origPrice - item.price) / item.origPrice) * 100) : 0;
+
+        grid.innerHTML += `
+          <div class="food-card">
+            <div class="food-img-wrap">
+              <img src="${item.img}" alt="${item.name}" />
+              ${hasDiscount ? `<div class="discount-badge">${discountPct}% OFF</div>` : ''}
+            </div>
+            <div class="food-info">
+              <div class="food-title">${item.name}</div>
+              <div class="food-desc">${item.desc || ''}</div>
+              <div class="food-bottom">
+                <div class="price-box">
+                  <span class="curr-price">₹${item.price}</span>
+                  ${hasDiscount ? `<span class="orig-price">₹${item.origPrice}</span>` : ''}
+                </div>
+                <button class="add-btn" onclick="addToCart(${item.id})">+ Add</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Render Reviews
+    function renderReviews() {
+      const revList = document.getElementById('reviewList');
+      revList.innerHTML = '';
+
+      const displayItems = showAllReviews ? reviewData : reviewData.slice(0, 3);
+
+      displayItems.forEach(rev => {
+        const starsHtml = '★'.repeat(rev.stars) + '☆'.repeat(5 - rev.stars);
+        revList.innerHTML += `
+          <div class="review-card">
+            <div class="rev-top">
+              <span class="rev-author">${rev.author}</span>
+              <span class="rev-stars">${starsHtml}</span>
+            </div>
+            <div class="rev-text">${rev.text}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById('viewMoreRevBtn').innerText = showAllReviews ? 'View Less' : 'View More Reviews';
+    }
+
+    function toggleReviews() {
+      showAllReviews = !showAllReviews;
+      renderReviews();
+    }
+
+    function handleAddReview(e) {
+      e.preventDefault();
+      const author = document.getElementById('revAuthorInput').value;
+      const stars = parseInt(document.getElementById('revStarsInput').value);
+      const text = document.getElementById('revTextInput').value;
+
+      reviewData.unshift({ author, stars, text });
+      saveData();
+      renderReviews();
+      closeModal('reviewModal');
+      e.target.reset();
+    }
+
+    // Category & Search
+    function filterCategory(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMenu();
+    }
+
+    function filterMenu() {
+      renderMenu();
+    }
+
+    // Cart Logic
+    function addToCart(id) {
+      const item = menuData.find(m => m.id === id);
+      const existing = cart.find(c => c.id === id);
+
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...item, qty: 1 });
+      }
+      updateCartUI();
+    }
+
+    function updateCartQty(id, change) {
+      const idx = cart.findIndex(c => c.id === id);
+      if (idx !== -1) {
+        cart[idx].qty += change;
+        if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const cartItems = document.getElementById('cartItems');
+      const cartBadge = document.getElementById('cartBadge');
+      const cartTotal = document.getElementById('cartTotal');
+
+      cartItems.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        count += item.qty;
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong>
+              <div style="font-size:0.85rem; color:var(--text-muted);">₹${item.price} x ${item.qty}</div>
+            </div>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="updateCartQty(${item.id}, -1)">-</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      });
+
+      cartBadge.innerText = count;
+      cartTotal.innerText = `₹${total}`;
+    }
+
+    function toggleCart() {
+      document.getElementById('cartDrawer').classList.toggle('active');
+    }
+
+    function sendWhatsAppOrder() {
+      if (cart.length === 0) return alert('Your cart is empty!');
+      let msg = "*NEW ORDER - ZORKO SUJANGARH*\n\n";
+      let total = 0;
+
+      cart.forEach(i => {
+        msg += `• ${i.name} x${i.qty} = ₹${i.price * i.qty}\n`;
+        total += i.price * i.qty;
+      });
+
+      msg += `\n*Total Amount:* ₹${total}\n`;
+      msg += "*Address:* Ghanta Ghar, Sujangarh";
+
+      window.open(`https://wa.me/918239067000?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Modal Helpers
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function toggleDropdown() {
+      document.getElementById('dropdownMenu').classList.toggle('active');
+    }
+
+    // Admin Access
+    function openAdminPanel() {
+      toggleDropdown();
+      const pwd = prompt("Enter Admin Password:");
+      if (pwd === "zorkosujangarh") {
+        openModal('adminModal');
+      } else if (pwd !== null) {
+        alert("Incorrect Password!");
+      }
+    }
+
+    function handleAdminSaveItem(e) {
+      e.preventDefault();
+      const name = document.getElementById('adminTitle').value;
+      const category = document.getElementById('adminCategory').value;
+      const price = parseFloat(document.getElementById('adminPrice').value);
+      const origPrice = parseFloat(document.getElementById('adminOrigPrice').value) || null;
+      const desc = document.getElementById('adminDesc').value;
+      const fileInput = document.getElementById('adminImageFile');
+
+      const saveItemWithImg = (imgUrl) => {
+        const newItem = {
+          id: Date.now(),
+          name, category, price, origPrice, desc,
+          img: imgUrl || "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+        };
+        menuData.unshift(newItem);
+        saveData();
+        renderMenu();
+        closeModal('adminModal');
+        e.target.reset();
+        alert("Product saved successfully!");
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          saveItemWithImg(evt.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        saveItemWithImg(null);
+      }
+    }
+
+    function handleTableBooking(e) {
+      e.preventDefault();
+      const name = document.getElementById('bookName').value;
+      const guests = document.getElementById('bookGuests').value;
+      const time = document.getElementById('bookTime').value;
+
+      const msg = `*TABLE RESERVATION REQUEST*\nName: ${name}\nGuests: ${guests}\nDate/Time: ${time}`;
+      window.open(`https://wa.me/918239067000?text=${encodeURIComponent(msg)}`, '_blank');
+      closeModal('bookModal');
+    }
+
+    // Initialize on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      saveData();
+      renderMenu();
+      renderReviews();
+    });
+  </script>
+</body>
+  </html>
