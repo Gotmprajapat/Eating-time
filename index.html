@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -837,14 +837,14 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-6 left-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- Firebase SDK Setup & Database Script -->
+    <!-- Firebase SDK Setup & Realtime Database Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, set, remove, onValue, push, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         // Firebase Config Setup
-        const defaultFirebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyCiG9rMuPURjLhJDE3HorL0QrL7qE86h5c",
             authDomain: "drozioostore.firebaseapp.com",
             databaseURL: "https://drozioostore-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -855,19 +855,17 @@
             measurementId: "G-SJF910VQZ2"
         };
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
+        const db = getDatabase(app);
 
-        // App ID for strict Firestore rules compliance
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'eating-time-restaurant-sujangarh';
-        // Public data collection path: /artifacts/{appId}/public/data/restaurant_menu
-        const menuCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'restaurant_menu');
+        // App ID for Realtime Database path
+        const appId = 'eating-time-restaurant-sujangarh';
+        const menuPath = `artifacts/${appId}/public/data/restaurant_menu`;
 
         window.db = db;
         window.auth = auth;
-        window.menuCollectionRef = menuCollectionRef;
+        window.menuPath = menuPath;
 
         // Comprehensive Master Menu Data List
         window.initialMenuItems = [
@@ -1044,22 +1042,16 @@
             }
         ];
 
-        // Auth & Firestore Data Loader Function
+        // Auth & Realtime Database Data Loader Function
         async function initFirebaseAndData() {
             // First load local array so user sees menu instantly without delay
             window.menuItems = [...window.initialMenuItems];
             window.renderMenu();
 
             try {
-                // Rule 3: Auth Before Queries
-                let user;
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    const userCred = await signInWithCustomToken(auth, __initial_auth_token);
-                    user = userCred.user;
-                } else {
-                    const userCred = await signInAnonymously(auth);
-                    user = userCred.user;
-                }
+                // Sign in anonymously
+                const userCred = await signInAnonymously(auth);
+                const user = userCred.user;
 
                 if (!user) {
                     console.warn("Firebase Auth pending or unavailable.");
@@ -1071,30 +1063,31 @@
                     statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Realtime Cloud Sync Active`;
                 }
 
-                // Listen to Realtime Firestore updates with error callback
-                onSnapshot(menuCollectionRef, (snapshot) => {
-                    if (snapshot.empty) {
-                        // Seed database if empty in Firestore
-                        console.log("Seeding initial menu items to Cloud database...");
-                        window.initialMenuItems.forEach(async (item) => {
-                            try {
-                                await setDoc(doc(menuCollectionRef, String(item.id)), item);
-                            } catch (e) {
-                                console.error("Error seeding item:", e);
-                            }
-                        });
-                    } else {
-                        const cloudItems = [];
-                        snapshot.forEach((docSnap) => {
-                            cloudItems.push(docSnap.data());
-                        });
+                // Listen to Realtime Database updates
+                const menuRef = ref(db, menuPath);
+                onValue(menuRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        // Convert object to array
+                        const cloudItems = Object.values(data);
                         if (cloudItems.length > 0) {
                             window.menuItems = cloudItems;
                             window.renderMenu();
                         }
+                    } else {
+                        // Seed database if empty in Realtime Database
+                        console.log("Seeding initial menu items to Cloud database...");
+                        window.initialMenuItems.forEach(async (item) => {
+                            try {
+                                const itemRef = ref(db, `${menuPath}/${item.id}`);
+                                await set(itemRef, item);
+                            } catch (e) {
+                                console.error("Error seeding item:", e);
+                            }
+                        });
                     }
                 }, (error) => {
-                    console.error("Firestore onSnapshot error:", error);
+                    console.error("Realtime Database onValue error:", error);
                     const statusBadge = document.getElementById('db-status-badge');
                     if (statusBadge) {
                         statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> Offline Mode`;
@@ -1106,7 +1099,7 @@
             }
         }
 
-        // Cloud Persistence Save
+        // Cloud Persistence Save for Realtime Database
         window.saveDishToCloud = async function(dishObj) {
             // Update local state & UI instantly
             const existingIdx = (window.menuItems || []).findIndex(i => String(i.id) === String(dishObj.id));
@@ -1119,19 +1112,19 @@
 
             try {
                 if (auth.currentUser) {
-                    const dishDocRef = doc(menuCollectionRef, String(dishObj.id));
-                    await setDoc(dishDocRef, dishObj);
-                    window.showToast(`Saved "${dishObj.name}" to Cloud Database!`);
+                    const dishRef = ref(db, `${menuPath}/${dishObj.id}`);
+                    await set(dishRef, dishObj);
+                    window.showToast(`Saved "${dishObj.name}" to Realtime Database!`);
                 } else {
                     window.showToast(`Saved "${dishObj.name}" locally!`);
                 }
             } catch (err) {
-                console.error("Error saving dish to Cloud:", err);
+                console.error("Error saving dish to Realtime Database:", err);
                 window.showToast(`Saved "${dishObj.name}" locally!`);
             }
         };
 
-        // Cloud Persistence Delete
+        // Cloud Persistence Delete for Realtime Database
         window.deleteDishFromCloud = async function(dishId) {
             // Update local state instantly
             window.menuItems = (window.menuItems || []).filter(i => String(i.id) !== String(dishId));
@@ -1139,14 +1132,14 @@
 
             try {
                 if (auth.currentUser) {
-                    const dishDocRef = doc(menuCollectionRef, String(dishId));
-                    await deleteDoc(dishDocRef);
-                    window.showToast("Dish removed permanently from Cloud!");
+                    const dishRef = ref(db, `${menuPath}/${dishId}`);
+                    await remove(dishRef);
+                    window.showToast("Dish removed permanently from Realtime Database!");
                 } else {
                     window.showToast("Dish removed locally!");
                 }
             } catch (err) {
-                console.error("Error deleting dish from Cloud:", err);
+                console.error("Error deleting dish from Realtime Database:", err);
             }
         };
 
@@ -1619,4 +1612,4 @@
         }
     </script>
 </body>
-              </html>
+ </html>
